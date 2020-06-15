@@ -1,0 +1,24 @@
+author="darkator"
+description="Operation desert storm and battle of Erth on landen
+
+you can play a historic battle in Iraq (desert storm operation) or you can
+ play a battle between the forces of Earth and the forces of the First Galactic Empire.
+
+
+examples of units are:
+m-1 abrams, m-2 bradley, t-14 armata, t-15 armata
+
+AT-AT, AT-ST, AT-MP
+
+
+
+"
+email="geniusze.kamuflazu@gmail.com"
+icon="units/m1abrams4545090.png"
+passphrase="XXX"
+title="Desert war"
+type="era"
+version="0.1.0"
+[feedback]
+	 topic_id=52621
+[/feedback]
