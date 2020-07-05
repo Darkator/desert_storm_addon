@@ -18,7 +18,7 @@ icon="units/m1abrams4545090.png"
 passphrase="XXX"
 title="Desert war"
 type="era"
-version="0.1.0"
+version="0.1.2"
 [feedback]
 	topic_id=52621
 [/feedback]
