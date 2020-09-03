@@ -1,0 +1,248 @@
+#define ANL_SHOW_IF TYPE TERRAINLIST
+        [show_if]
+        [have_unit]
+            side=$side_number
+                    [filter]
+                    x=$x1
+                    y=$y1
+                [/filter]
+            type={TYPE}
+            [filter_location]
+                terrain={TERRAINLIST}
+            [/filter_location]
+        [/have_unit]
+        [/show_if]
+    #enddef
+    #define COMPLETE_ACTION GOLD_NUMBER
+    [set_variable]
+        name=finished
+        value=yes
+    [/set_variable]
+
+    [set_variable]
+        name=unit.status.worked_this_turn
+        value=yes
+    [/set_variable]
+    [set_variable]
+        name=unit.moves
+        value=0
+    [/set_variable]
+    {VARIABLE store_unit.status.worked_this_turn yes}
+    [unstore_unit]
+        variable=unit
+    [/unstore_unit]
+
+    [gold]
+        amount={GOLD_NUMBER}
+        side=$side_number
+    [/gold]
+#enddef
+
+    #define WORKER_OPTIONS TYPES
+    
+    
+        
+        [set_menu_item]
+        id=bridgebollom
+        description= _ "Bridge Ballom"
+        [show_if]
+            [have_unit]
+                side=$side_number
+                [filter]
+                    x=$x1
+                    y=$y1
+                [/filter]
+                type={TYPES}
+                [not]
+                    status=worked_this_turn
+                [/not]
+            [/have_unit]
+        [/show_if]
+        [command]
+            [store_gold]
+                side=$side_number
+                variable=gold
+            [/store_gold]
+                                
+            [store_unit]
+                [filter]
+                    x=$x1
+                    y=$y1
+                [/filter]
+                variable=unit
+            [/store_unit]
+
+            [set_variable]
+                name=finished
+                value=no
+            [/set_variable]
+
+            [while]
+                [variable]
+                    name=finished
+                    boolean_equals=no
+                [/variable]
+
+                [do]
+                    [message]
+                        speaker=unit
+                        message= _ "What shall I do my liege?"
+
+                        [option]
+                            label= _ "Nothing"
+                            [command]
+                                [set_variable]
+                                    name=finished
+                                    value=yes
+                                [/set_variable]
+                            [/command]
+                        [/option]
+
+
+                        
+
+                        [option]
+                            image = "terrain/bridge/wood-ne-s-nw.png"
+                            label = "<span color='green'>" + _ "Flood the Field" + "</span>"
+                            description = "<span size='small'>" + _ "Cost: 4g" + "</span>"
+                            {ANL_SHOW_IF ("gzm003") "Ww,Ww*,W**"}
+                            [command]
+                                
+                                [if]
+                                    
+
+                                    
+
+                                    [then]
+                                    
+                                        {COMPLETE_ACTION 0}
+                                        {MODIFY_TERRAIN "Wot^Bw\r" $x1 $y1}
+                                        [sound]
+                                            name=water-blast.wav
+                                        [/sound]
+                                            
+                                    [/then]
+                                [/if]
+                            [/command]
+                        [/option]
+                        [option]
+                            image = "terrain/water/coast-tropical-tile.png"
+                            label = "<span color='green'>" + _ "Flood the Field" + "</span>"
+                            description = "<span size='small'>" + _ "Cost: 4g" + "</span>"
+                            {ANL_SHOW_IF ("gzm003") "Wot^Bw\r"}
+                            [command]
+                                
+                                [if]
+                                    
+
+                                    [then]
+                                    
+                                        {COMPLETE_ACTION 0}
+                                        {MODIFY_TERRAIN "Ww" $x1 $y1}
+                                        [sound]
+                                            name=water-blast.wav
+                                        [/sound]
+                                        
+                                    [/then]
+                                [/if]
+                            [/command]
+                        [/option]
+                    [/message]
+                    [/do]
+                [/while]
+                [clear_variable]
+                name=finished,gold
+                [/clear_variable]
+                [/command]
+            [/set_menu_item]
+    
+    #enddef
+
+    [event]
+    name=prerecruit
+    first_time_only=no
+    {WORKER_OPTIONS "gzm003"}
+    [/event]
+
+
+
+
+    [event]
+        name=attacker_hits
+        first_time_only=no
+
+        [filter_attack]
+            special=znanie_ogania
+        [/filter_attack]
+
+        [filter_second]
+            [not]
+                level=0
+                [or]
+                    status=res_ethergrip
+                [/or]
+            [/not]
+        [/filter_second]
+
+        {VARIABLE second_unit.status.res_ethergrip yes}
+
+        [unstore_unit]
+            variable=second_unit
+            find_vacant=no
+            text= _ "znanie_ogania"
+            female_text= _ "female^znanie_ogania"
+            red,green,blue=175,65,155
+        [/unstore_unit]
+
+        [object]
+            silent=yes
+            duration=turn end
+
+            [filter]
+                x,y=$x2,$y2
+            [/filter]
+
+            [effect]
+                apply_to=image_mod
+                replace="BLEND(175,65,155,0.5)"
+            [/effect]
+            [effect]
+                apply_to=image_mod
+                add="O(60%)"
+            [/effect]
+
+            [effect]
+                apply_to=resistance
+        replace=no
+        [resistance]
+            fire=+100
+            
+        [/resistance]
+            [/effect]
+        [/object]
+    [/event]
+
+
+
+    [event]
+        name=side turn end
+        first_time_only=no
+
+        [store_unit]
+            [filter]
+                side=$side_number
+                status=res_ethergrip
+            [/filter]
+            variable=res_ethergrip
+        [/store_unit]
+
+        {FOREACH res_ethergrip i}
+            {CLEAR_VARIABLE res_ethergrip[$i].status.res_ethergrip}
+
+            [unstore_unit]
+                variable=res_ethergrip[$i]
+            [/unstore_unit]
+        {NEXT i}
+
+        {CLEAR_VARIABLE res_ethergrip}
+    [/event]
