@@ -1,0 +1,11 @@
+[terrain_graphics]
+    [tile]
+        x=0
+        y=0
+        type=*^YVhc
+        set_no_flag="base"
+    [/tile]
+    [image]
+         name="factori2.png"
+    [/image]
+[/terrain_graphics]

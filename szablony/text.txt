@@ -246,3 +246,28 @@
 
         {CLEAR_VARIABLE res_ethergrip}
     [/event]
+
+
+    [terrain_graphics]
+    [tile]
+        x=0
+        y=0
+        type=*^YVhc
+        set_no_flag="base"
+    [/tile]
+    [image]
+         name="factori2.png"
+    [/image]
+[/terrain_graphics]
+
+[terrain_graphics]
+    [tile]
+        x=0
+        y=0
+        type=YCh
+        set_no_flag="base"
+    [/tile]
+    [image]
+         name="runway3.png"
+    [/image]
+[/terrain_graphics]
