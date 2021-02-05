@@ -271,3 +271,8 @@
          name="runway3.png"
     [/image]
 [/terrain_graphics]
+
+
+            [filter_opponent]
+            ability=armouredv
+            [/filter_opponent]
