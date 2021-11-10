@@ -23,7 +23,7 @@ icon="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAAAXNS
 passphrase="XXX"
 title="Desert war"
 type="era"
-version="0.2.1"
+version="0.2.2"
 [feedback]
 	topic_id=52621
 [/feedback]
